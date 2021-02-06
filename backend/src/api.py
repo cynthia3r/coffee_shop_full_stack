@@ -38,7 +38,7 @@ def get_drinks():
             'success': True,
             'drinks': [drink.short() for drink in drinks]
         })
-    except:
+    except BaseException:
         abort(404)
 
 
@@ -62,7 +62,7 @@ def get_drinks_detail(jwt):
             'success': True,
             'drinks': [drink.long() for drink in drinks],
         })
-    except:
+    except BaseException:
         abort(404)
 
 
@@ -97,7 +97,7 @@ def create_drink(jwt):
             'success': True,
             'drinks': [drink.long()],
         })
-    except:
+    except BaseException:
         abort(422)
 
 
@@ -137,7 +137,7 @@ def update_drink(jwt, id):
                 'drinks': [drink.long()],
             })
 
-        except:
+        except BaseException:
             abort(422)
     else:
         abort(404)
@@ -168,7 +168,7 @@ def delete_drink(jwt, id):
                 'success': True,
                 'delete': id,
             })
-        except:
+        except BaseException:
             abort(422)
     else:
         abort(404)
@@ -187,6 +187,7 @@ def unprocessable(error):
                     "error": 422,
                     "message": "unprocessable"
                     }), 422
+
 
 '''
 @TODO implement error handlers using the @app.errorhandler(error) decorator
@@ -212,6 +213,7 @@ def not_found(error):
         "error": 404,
         "message": "resource not found"
     }), 404
+
 
 '''
 @TODO implement error handler for AuthError

@@ -67,6 +67,7 @@ def get_token_auth_header():
     token = parts[1]
     return token
 
+
 '''
 @TODO implement check_permissions(permission, payload) method
     @INPUTS
@@ -83,10 +84,10 @@ def get_token_auth_header():
 
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
-                        raise AuthError({
-                            'code': 'invalid_claims',
-                            'description': 'Permissions not included in JWT.'
-                        }, 400)
+        raise AuthError({
+            'code': 'invalid_claims',
+            'description': 'Permissions not included in JWT.'
+        }, 400)
 
     if permission not in payload['permissions']:
         raise AuthError({
@@ -94,6 +95,7 @@ def check_permissions(permission, payload):
             'description': 'Permission not found.'
         }, 403)
     return True
+
 
 '''
 @TODO implement verify_decode_jwt(token) method
@@ -173,6 +175,7 @@ def verify_decode_jwt(token):
                 'description': 'Unable to find the appropriate key.'
             }, 400)
 
+
 '''
 @TODO implement @requires_auth(permission) decorator method
     @INPUTS
@@ -182,7 +185,8 @@ def verify_decode_jwt(token):
     it should use the verify_decode_jwt method to decode the jwt
     it should use the check_permissions method validate claims
     and check the requested permission
-    return the decorator which passes the decoded payload to the decorated method
+    return the decorator which passes the decoded payload
+    to the decorated method
 '''
 
 
@@ -192,7 +196,7 @@ def requires_auth(permission=''):
         def wrapper(*args, **kwargs):
             try:
                 token = get_token_auth_header()
-            except:
+            except BaseException:
                 abort(401)
 
             payload = verify_decode_jwt(token)
